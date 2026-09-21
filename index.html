@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Plunge | Scroll Animation Experience</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Preloader Overlay -->
+    <div id="loader" class="loader-overlay">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <h2>Initializing Experience</h2>
+            <p id="loader-status">Preloading sequence... 0%</p>
+            <div class="loader-progress-bar">
+                <div id="loader-fill" class="loader-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-brand">
+            <i class="fa-solid fa-earth-americas brand-icon"></i>
+            <span class="brand-title">COSMIC DIVE</span>
+        </div>
+        <div class="nav-center">
+            <span id="active-section-name" class="active-section-badge">Stage 1: Deep Space</span>
+        </div>
+        <div class="nav-right">
+            <!-- Audio Sound FX Toggle -->
+            <button id="audio-toggle-btn" class="nav-control-btn" title="Toggle Cosmic Ambient Audio">
+                <i id="audio-icon" class="fa-solid fa-volume-xmark"></i>
+                <span id="audio-text">Audio: OFF</span>
+            </button>
+            
+            <!-- HUD Toggle Button -->
+            <button id="hud-toggle-btn" class="nav-control-btn active" title="Toggle Realtime Telemetry HUD">
+                <i class="fa-solid fa-gauge-high"></i>
+                <span>HUD</span>
+            </button>
+
+            <!-- Frame Counter -->
+            <div class="frame-counter">
+                <i class="fa-solid fa-film"></i>
+                <span id="frame-num">001</span> / <span>196</span>
+            </div>
+        </div>
+        <!-- Scroll Progress Bar -->
+        <div id="progress-bar" class="progress-bar"></div>
+    </header>
+
+    <!-- Canvas for 100% Full Screen Frame Animation -->
+    <canvas id="scroll-animation"></canvas>
+
+    <!-- Real-time Dynamic Telemetry HUD Panel (Floating) -->
+    <aside id="telemetry-hud" class="telemetry-hud">
+        <div class="hud-header">
+            <i class="fa-solid fa-microchip"></i>
+            <span>FLIGHT TELEMETRY</span>
+            <div class="live-dot"></div>
+        </div>
+        <div class="hud-metrics">
+            <div class="hud-item">
+                <span class="hud-label"><i class="fa-solid fa-mountain"></i> ALTITUDE</span>
+                <span id="hud-alt" class="hud-value">400.0 KM</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label"><i class="fa-solid fa-bolt"></i> VELOCITY</span>
+                <span id="hud-speed" class="hud-value">0 KM/H</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label"><i class="fa-solid fa-temperature-full"></i> HEAT SHIELD</span>
+                <span id="hud-temp" class="hud-value">22 °C</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label"><i class="fa-solid fa-weight-hanging"></i> G-FORCE</span>
+                <span id="hud-gforce" class="hud-value">1.0 G</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Scroll Content Container with Story Sections -->
+    <main class="content-container">
+
+        <!-- Section 1: Space (Frames 1 - 40) -->
+        <section id="section-1" class="story-section active">
+            <div class="glass-card left-align">
+                <div class="section-tag"><i class="fa-solid fa-space-shuttle"></i> STAGE 01</div>
+                <h1 class="gradient-text">COSMIC ODYSSEY</h1>
+                <h3 class="subtitle">Journey Beyond The Horizon</h3>
+                <p>
+                    Embark on an extraordinary orbital voyage starting 400km high above planet Earth in the quiet majesty of deep space. Watch our blue planet float amidst an endless galaxy of stars.
+                </p>
+                <div class="stats-row">
+                    <div class="stat-pill"><i class="fa-solid fa-globe"></i> 400 KM ORBIT</div>
+                    <div class="stat-pill"><i class="fa-solid fa-satellite"></i> ISS TELEMETRY</div>
+                    <div class="stat-pill"><i class="fa-solid fa-atom"></i> ZERO G</div>
+                </div>
+
+                <!-- Interactive Space Specs Accordion -->
+                <div class="space-specs-grid">
+                    <div class="spec-card">
+                        <i class="fa-solid fa-temperature-arrow-down"></i>
+                        <div>
+                            <h4>-270°C</h4>
+                            <p>Vacuum Temp</p>
+                        </div>
+                    </div>
+                    <div class="spec-card">
+                        <i class="fa-solid fa-gauge"></i>
+                        <div>
+                            <h4>27,600 KM/H</h4>
+                            <p>Orbital Speed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="openModal('modal-flight-log')">
+                        <i class="fa-solid fa-circle-info"></i> View Space Log
+                    </button>
+                </div>
+
+                <div class="scroll-hint">
+                    <span>Scroll down to initiate atmospheric descent</span>
+                    <i class="fa-solid fa-chevron-down bounce"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Atmosphere (Frames 41 - 85) -->
+        <section id="section-2" class="story-section">
+            <div class="glass-card right-align">
+                <div class="section-tag"><i class="fa-solid fa-wind"></i> STAGE 02</div>
+                <h1 class="gradient-text">ATMOSPHERIC DIVE</h1>
+                <h3 class="subtitle">Breaching The Stratosphere</h3>
+                <p>
+                    Plunging at hypersonic velocity through wispy cloud layers and atmospheric mist. Feel the motion blur build as cosmic silence transitions into high-speed atmospheric friction.
+                </p>
+
+                <!-- Re-entry Status Indicator Bar -->
+                <div class="thermal-meter-box">
+                    <div class="thermal-meter-label">
+                        <span><i class="fa-solid fa-fire-flame-curved"></i> Re-Entry Plasma Compression</span>
+                        <span id="thermal-val">1,450 °C</span>
+                    </div>
+                    <div class="thermal-bar">
+                        <div id="thermal-fill" class="thermal-fill" style="width: 78%;"></div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-pill"><i class="fa-solid fa-gauge-high"></i> MACH 12 SPEED</div>
+                    <div class="stat-pill"><i class="fa-solid fa-cloud"></i> 45,000M ALTITUDE</div>
+                    <div class="stat-pill"><i class="fa-solid fa-arrows-to-eye"></i> SHOCKWAVE</div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="openModal('modal-atmosphere-data')">
+                        <i class="fa-solid fa-chart-line"></i> Atmospheric Breakdown
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: City Skyline (Frames 86 - 140) -->
+        <section id="section-3" class="story-section">
+            <div class="glass-card left-align">
+                <div class="section-tag"><i class="fa-solid fa-city"></i> STAGE 03</div>
+                <h1 class="gradient-text">NEON METROPOLIS</h1>
+                <h3 class="subtitle">Architectural Horizon</h3>
+                <p>
+                    Gliding downward between towering skyscrapers and glass high-rises at twilight. The urban landscape expands below in a glowing tapestry of golden lights and modern design.
+                </p>
+
+                <!-- Interactive City Landmarks Carousel / Chips -->
+                <div class="metropolis-chips">
+                    <div class="chip"><i class="fa-solid fa-building-user"></i> Cyber Spire (620m)</div>
+                    <div class="chip"><i class="fa-solid fa-bridge"></i> Helix Skybridge</div>
+                    <div class="chip"><i class="fa-solid fa-solar-panel"></i> Solar Grid</div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-pill"><i class="fa-solid fa-building"></i> URBAN GRID</div>
+                    <div class="stat-pill"><i class="fa-solid fa-sun"></i> TWILIGHT GLOW</div>
+                    <div class="stat-pill"><i class="fa-solid fa-tower-observation"></i> METROPOLIS</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Night Carnival (Frames 141 - 196) -->
+        <section id="section-4" class="story-section">
+            <div class="glass-card center-align large-card">
+                <div class="section-tag"><i class="fa-solid fa-ferris-wheel"></i> STAGE 04</div>
+                <h1 class="gradient-text">THE GRAND CARNIVAL</h1>
+                <h3 class="subtitle">Where Wonder Comes Alive</h3>
+                <p>
+                    Reaching ground level in an illuminated night fairground. Surround yourself with glowing carousel lights, vibrant festival energy, and breathtaking evening celebrations.
+                </p>
+
+                <!-- Carnival Attractions Grid -->
+                <div class="attractions-grid">
+                    <div class="attraction-card">
+                        <i class="fa-solid fa-ferris-wheel attraction-icon"></i>
+                        <h4>Neon Wheel</h4>
+                        <p>120m Panoramic View</p>
+                    </div>
+                    <div class="attraction-card">
+                        <i class="fa-solid fa-masks-theater attraction-icon"></i>
+                        <h4>Light Parade</h4>
+                        <p>Laser & Drone Symphony</p>
+                    </div>
+                    <div class="attraction-card">
+                        <i class="fa-solid fa-gamepad attraction-icon"></i>
+                        <h4>Arcade Realm</h4>
+                        <p>Retro-Futuristic VR</p>
+                    </div>
+                    <div class="attraction-card">
+                        <i class="fa-solid fa-utensils attraction-icon"></i>
+                        <h4>Cosmic Market</h4>
+                        <p>Artisanal Night Treats</p>
+                    </div>
+                </div>
+
+                <div class="stats-row center-stats">
+                    <div class="stat-pill"><i class="fa-solid fa-icons"></i> FESTIVAL LIGHTS</div>
+                    <div class="stat-pill"><i class="fa-solid fa-sparkles"></i> NIGHT MAGIC</div>
+                    <div class="stat-pill"><i class="fa-solid fa-location-dot"></i> DESTINATION</div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                        <i class="fa-solid fa-arrow-up"></i> Replay Descent
+                    </button>
+                    <button class="btn btn-secondary" onclick="openModal('modal-ticket')">
+                        <i class="fa-solid fa-ticket"></i> Get Festival Pass
+                    </button>
+                    <button class="btn btn-secondary" onclick="openModal('modal-faq')">
+                        <i class="fa-solid fa-circle-question"></i> FAQ & Info
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modals -->
+
+    <!-- Modal 1: Flight Log -->
+    <div id="modal-flight-log" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('modal-flight-log')">&times;</button>
+            <div class="modal-header">
+                <i class="fa-solid fa-rocket modal-title-icon"></i>
+                <h2>Mission Orbital Flight Log</h2>
+            </div>
+            <div class="modal-body">
+                <p>Detailed breakdown of your high-altitude orbital entry path:</p>
+                <ul class="modal-list">
+                    <li><i class="fa-solid fa-check-double"></i> <strong>Initial Orbit:</strong> Low Earth Orbit at 400 KM Altitude.</li>
+                    <li><i class="fa-solid fa-check-double"></i> <strong>Trajectory:</strong> 28.5° Inclination Vector into Stratosphere.</li>
+                    <li><i class="fa-solid fa-check-double"></i> <strong>Spacecraft Telemetry:</strong> Autonomous Thruster Balancing Active.</li>
+                    <li><i class="fa-solid fa-check-double"></i> <strong>Atmospheric Contact:</strong> Anticipated at frame 041.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Atmosphere Data -->
+    <div id="modal-atmosphere-data" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('modal-atmosphere-data')">&times;</button>
+            <div class="modal-header">
+                <i class="fa-solid fa-cloud-sun modal-title-icon"></i>
+                <h2>Stratospheric Composition</h2>
+            </div>
+            <div class="modal-body">
+                <div class="composition-list">
+                    <div class="comp-item">
+                        <span>Nitrogen (N₂)</span>
+                        <div class="comp-bar"><div style="width: 78%;"></div></div>
+                        <span>78%</span>
+                    </div>
+                    <div class="comp-item">
+                        <span>Oxygen (O₂)</span>
+                        <div class="comp-bar"><div style="width: 21%;"></div></div>
+                        <span>21%</span>
+                    </div>
+                    <div class="comp-item">
+                        <span>Argon & Rare Gases</span>
+                        <div class="comp-bar"><div style="width: 1%;"></div></div>
+                        <span>1%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Festival Ticket -->
+    <div id="modal-ticket" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('modal-ticket')">&times;</button>
+            <div class="modal-header">
+                <i class="fa-solid fa-ticket modal-title-icon"></i>
+                <h2>Reserve Festival Pass</h2>
+            </div>
+            <div class="modal-body">
+                <form id="ticket-form" onsubmit="handleTicketSubmit(event)">
+                    <div class="form-group">
+                        <label for="pass-type">Pass Tier</label>
+                        <select id="pass-type" class="form-input">
+                            <option>Cosmic VIP Pass (Unlimited Access + Sky Lounge)</option>
+                            <option>Starlight Express (Fast Track Attractions)</option>
+                            <option>Standard Festival Ticket</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="visitor-name">Full Name</label>
+                        <input type="text" id="visitor-name" class="form-input" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="visitor-email">Email Address</label>
+                        <input type="email" id="visitor-email" class="form-input" placeholder="name@example.com" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fa-solid fa-qrcode"></i> Generate Digital Ticket
+                    </button>
+                </form>
+                <div id="ticket-success" class="ticket-success hidden">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <h3>Pass Confirmed!</h3>
+                    <p>Your digital pass QR code has been issued and sent to your email.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4: FAQ & Info -->
+    <div id="modal-faq" class="modal-overlay">
+        <div class="modal-card large-modal">
+            <button class="modal-close" onclick="closeModal('modal-faq')">&times;</button>
+            <div class="modal-header">
+                <i class="fa-solid fa-circle-question modal-title-icon"></i>
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            <div class="modal-body">
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span>How does the scroll animation work?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Cosmic Plunge utilizes 196 high-resolution rendered frames synchronized directly with HTML5 Canvas cover rendering and requestAnimationFrame for 60FPS smooth playback.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span>What are the 4 main descent stages?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>1. Deep Space (Orbit)<br>2. Stratospheric Atmosphere (Cloud Dive)<br>3. Neon Metropolis (City Skyline)<br>4. Night Carnival (Ground Arrival)</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span>Is audio available during the descent?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes! Click the <strong>Audio: OFF</strong> button in the top navigation bar to toggle ambient synth drone sound effects generated live via the Web Audio API.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
